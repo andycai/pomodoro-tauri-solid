@@ -1,4 +1,4 @@
-import { createSignal, createContext, useContext, createEffect } from "solid-js";
+import { createSignal, createEffect } from "solid-js";
 import { DefaultBreakDuration, DefaultWorkDuration, INTERVAL, Keys, Status, Tasks, WorkType } from "../config";
 import { getIntDefault, saveItem } from "./local";
 import { createStore } from "solid-js/store";
@@ -42,7 +42,7 @@ export const useStatus = () => [status]
 const [workType, setWorkType] = createSignal(WorkType.Work)
 export const useWorkType = () => [workType]
 
-const [daykey, setDaykey] = createSignal("")
+const [daykey, setDaykey] = createSignal(Keys.today())
 export const useDaykey = () => [daykey]
 
 const [today, setToday] = createSignal(0)

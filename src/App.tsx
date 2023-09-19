@@ -1,4 +1,4 @@
-import { createEffect, createMemo, createSignal } from "solid-js";
+import { createEffect, createMemo } from "solid-js";
 import { appWindow } from "@tauri-apps/api/window";
 import TimeCounterCom from "./components/TimeCounterCom";
 import TodayCountCom from "./components/TodayCountCom";
