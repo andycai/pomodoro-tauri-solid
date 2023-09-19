@@ -25,7 +25,7 @@ This template should help get you started developing with Tauri, Solid and Types
 ## Install Tauri support
 
 ```bash
-yarn i
+yarn install
 ```
 
 ## Run project
