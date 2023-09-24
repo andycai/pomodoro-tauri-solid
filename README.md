@@ -9,9 +9,9 @@ A simple pomodoro timer write in Tauri and Solid.
 
 ## Screenshots
 
-<img src="./screenshots/screenshot.png" width="140" height="184" alt="Screenshot of Pomodoro">
+<img src="./screenshots/screenshot.png" width="128" height="200" alt="Screenshot of Pomodoro">
 
-<img src="./screenshots/screenshot_break.png" width="140" height="184" alt="Screenshot of Pomodoro">
+<img src="./screenshots/screenshot_break.png" width="128" height="200" alt="Screenshot of Pomodoro">
 
 # Tauri + Solid + Typescript
 
@@ -25,17 +25,17 @@ This template should help get you started developing with Tauri, Solid and Types
 ## Install Tauri support
 
 ```bash
-yarn install
+pnpm i
 ```
 
 ## Run project
 
 ```bash
-yarn tauri dev
+pnpm tauri dev
 ```
 
 ## Build project
 
 ```bash
-yarn tauri build
+pnpm tauri build
 `````
