@@ -1,7 +1,7 @@
 import { useCount } from "../store/store";
 import { convertMinuteString, convertSecondString } from "../utils";
 
-function TimeCounterCom() {
+function TimeCounter() {
   const [count] = useCount()
   console.log("render TimeCounter", count())
   // const className = "font-black";
@@ -14,4 +14,4 @@ function TimeCounterCom() {
   );
 }
 
-export default TimeCounterCom
+export default TimeCounter

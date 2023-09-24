@@ -1,37 +1,9 @@
 import { createSignal, createEffect } from "solid-js";
-import { DefaultBreakDuration, DefaultWorkDuration, INTERVAL, Keys, Status, Tasks, WorkType } from "../config";
+import { DefaultBreakDuration, DefaultWorkDuration, INTERVAL, Keys, MagicNumber, Status, Tasks, WorkType } from "../config";
 import { getIntDefault, saveItem } from "./local";
 import { createStore } from "solid-js/store";
 import { playAudio, playEndAudio } from "../utils";
-
-// const StoreContext = createContext();
-
-// type State = {
-//   count: number
-//   status: Status
-//   workType: WorkType
-//   daykey: string
-//   today: number // 当天番茄钟
-//   total: number // 总番茄钟
-// }
-
-// type Actions = {
-//   initData: (today: number, total: number, count: number) => void
-//   updateDaykey: (key: string) => void
-//   updateToday: (count: number) => void
-//   countdown: () => void // 倒计时
-//   tick: () => void
-//   reset: () => void
-// }
-
-// const [store, setStore] = createStore({
-//   count: 0,
-//   status: Status.Idle,
-//   workType: WorkType.Work,
-//   daykey: "",
-//   today: 2,
-//   total: 0
-// })
+import { themeNum } from "../style";
 
 const [count, setCount] = createSignal(0)
 export const useCount = () => [count] 
@@ -50,6 +22,9 @@ export const useToday = () => [today]
 
 const [total, setTotal] = createSignal(0)
 export const useTotal = () => [total]
+
+const [theme, setTheme] = createSignal(0)
+export const useTheme = () => [theme]
 
 let id: any;
 createEffect(() => {
@@ -77,8 +52,11 @@ const [action, setAction] = createStore({
     if (count() === 0) {
       setStatus(Status.Idle)
       if (workType() === WorkType.Work) {
-        setToday(t => t + 1)
-        setTotal(t => t + 1)
+        setToday((t: number) => t + 1)
+        setTotal((t: number) => t + 1)
+        if (today() % MagicNumber === 0) {
+          setTheme((t) => (t + 1) % themeNum)
+        }
         setWorkType(WorkType.Break)
         setCount(getIntDefault(Keys.defaultBreakDuration, DefaultBreakDuration))
         // 当天数量本地保存
@@ -96,7 +74,7 @@ const [action, setAction] = createStore({
       }
       return
     }
-    setCount(c => c - 1);
+    setCount((c: number) => c - 1);
   },
   tick: () => {
     if (status() !== Status.Tick) {
@@ -109,70 +87,9 @@ const [action, setAction] = createStore({
     setCount(getIntDefault(Keys.defaultWorkDuration, DefaultWorkDuration))
     setStatus(Status.Idle)
     setWorkType(WorkType.Work)
+  },
+  changeTheme: () => {
+    setTheme((t) => (t + 1) % themeNum)
   }
 })
 export const useAction = () => [action]
-
-// export function StoreProvider(props: any) {
-//   const [count, setCount] = createSignal(0)
-//   const [status, setStatus] = createSignal(Status.Idle)
-//   const [workType, setWorkType] = createSignal(WorkType.Work)
-//   const [daykey, setDaykey] = createSignal("")
-//   const [today, setToday] = createSignal(0)
-//   const [total, setTotal] = createSignal(0)
-//   const store: State & Actions = {
-//       count: count(),
-//       status: status(),
-//       workType: workType(),
-//       daykey: daykey(),
-//       today: today(),
-//       total: total(),
-//         initData: (today: number, total: number, count: number) => {
-//           setCount(count)
-//           setToday(today)
-//           setTotal(total)
-//         },
-//         updateDaykey: (daykey: string) => {
-//           setDaykey(daykey)
-//         },
-//         updateToday: (count: number) => {
-//           setToday(count)
-//         },
-//         countdown: () => {
-//           if (count() === 0) {
-//             setStatus(Status.Idle)
-//             if (workType() === WorkType.Work) {
-//               setToday(t => t + 1)
-//               setTotal(t => t + 1)
-//               setWorkType(WorkType.Break)
-//               setCount(getIntDefault(Keys.defaultBreakDuration, DefaultBreakDuration))
-//             } else {
-//               setWorkType(WorkType.Work)
-//               setCount(getIntDefault(Keys.defaultWorkDuration, DefaultWorkDuration))
-//             }
-//             return
-//           }
-//           setCount(c => c - 1);
-//         },
-//         tick: () => {
-//           if (status() !== Status.Tick) {
-//             setStatus(Status.Tick)
-//           } else {
-//             setStatus(Status.Pause)
-//           }
-//         },
-//         reset: () => {
-//           setCount(getIntDefault(Keys.defaultWorkDuration, DefaultWorkDuration))
-//           setStatus(Status.Idle)
-//           setWorkType(WorkType.Work)
-//         }
-//     }
-
-//   return (
-//     <StoreContext.Provider value={store}>
-//       {props.children}
-//     </StoreContext.Provider>
-//   )
-// }
-
-// export function useStore() { return useContext(StoreContext) }

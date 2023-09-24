@@ -1,12 +1,12 @@
 import { playAudio, playEndAudio } from "../utils"
 import { Status } from "../config"
 import { createEffect } from "solid-js"
-import { PauseCircleOutline, PlayCircleOutline } from "@suid/icons-material"
 import { useAction, useStatus } from "../store/store"
+import { Pause } from "../icons/pause"
+import { Play } from "../icons/play"
 
-function OperactionCom() {
+function OperactionButton() {
   console.log("render Operaction")
-  const className = "cursor-pointer"
   const [status] = useStatus()
   const [actions] = useAction()
 
@@ -20,15 +20,12 @@ function OperactionCom() {
   }
 
   return (
-    <>
+    <button class="flex flex-row justify-center basis-1/2" title="Play or Pause" onClick={tick} >
       {
-        (status() === Status.Tick)  ?
-          (<PauseCircleOutline class={className} onClick={tick} />)
-        :
-          (<PlayCircleOutline class={className} onClick={tick} />)
+        (status() === Status.Tick)  ? <Pause width={22} height={22} /> : <Play width={22} height={22} />
       }
-    </>
+    </button>
   )
 }
 
-export default OperactionCom
+export default OperactionButton

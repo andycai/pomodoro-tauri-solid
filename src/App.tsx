@@ -1,30 +1,25 @@
 import { createEffect, createMemo } from "solid-js";
-import { appWindow } from "@tauri-apps/api/window";
-import TimeCounterCom from "./components/TimeCounterCom";
-import TodayCountCom from "./components/TodayCountCom";
-import RefreshCom from "./components/RefreshCom";
-import OperactionCom from "./components/OperationCom";
-import { CloseOutlined } from "@suid/icons-material";
+import TimeCounter from "./components/TimeCounter";
 import { ClassContainer, TextColors } from "./style";
-import { useAction, useToday, useWorkType } from "./store/store";
+import { useAction, useTheme, useWorkType } from "./store/store";
 import { DefaultWorkDuration, Keys, Tasks, dataJsonURL, diAudioPaths, endAudioPaths } from "./config";
 import { resolveResource } from "@tauri-apps/api/path";
 import { readTextFile } from "@tauri-apps/api/fs";
 import { getIntDefault, initItem } from "./store/local";
 import { convertFileSrc } from "@tauri-apps/api/tauri";
 import { addAudio, addEndAudio } from "./utils";
+import AppBar from "./components/AppBar";
+import FootBar from "./components/FootBar";
 
 function App() {
-  const [today] = useToday()
   const [workType] = useWorkType()
   const [actions] = useAction()
+  const [theme] = useTheme()
 
   // 字体和图标颜色
   const className = createMemo(() => {
-    const index = Math.floor(today() / 4)
     const arr = TextColors[workType()]??TextColors[1]
-    const color = arr[index]??arr[4]
-    console.log("color", index, color)
+    const color = arr[theme()]??arr[0]
     return ClassContainer + color 
   })
 
@@ -57,19 +52,11 @@ function App() {
   })
 
   return (
-      <div class={className()}>
-        <CloseOutlined class="cursor-pointer absolute right-0" fontSize="inherit" onClick={() => appWindow.close()} />
-        <div class="flex flex-col">
-          <TimeCounterCom />
-          <div class="flex flex-row justify-center mt-1">
-            <TodayCountCom />
-            <div class="flex flex-row flex-1 grow justify-end space-x-1 mr-1">
-              <RefreshCom />
-              <OperactionCom />
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class={className()}>
+      <AppBar />
+      <TimeCounter />
+      <FootBar />
+    </div>
   )
 }
 
