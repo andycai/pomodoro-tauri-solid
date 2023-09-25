@@ -5,16 +5,13 @@ import { Volume } from '../icons/volume'
 import { VolumeMute } from '../icons/volume-mute'
 import { changeAudio, playAudio } from '../utils'
 import { createSignal } from 'solid-js'
-import { useStatus, useToday, useTotal } from '../store/store'
+import store from '../store/store'
 
 function AppBar() {
   const [musicOff, setMusicOff] = createSignal(false)
-  const [status] = useStatus()
-  const [today] = useToday()
-  const [total] = useTotal()
 
   const onClick = () => {
-    if (status() === Status.Tick) {
+    if (store.status === Status.Tick) {
       setMusicOff(!changeAudio())
       playAudio(!musicOff())
     }
@@ -27,7 +24,7 @@ function AppBar() {
           musicOff() ? <VolumeMute width={16} height={16} /> : <Volume width={16} height={16} />
         }
       </button>
-      <span class="text-xs" >{total()}/{today()}</span>
+      <span class="text-xs" >{store.total}/{store.today}</span>
       <button title="Close Window" onClick={() => appWindow.close()}>
         <Close />
       </button>
