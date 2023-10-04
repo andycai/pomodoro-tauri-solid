@@ -19,6 +19,7 @@ export const initData = (td: number, tt: number, c: number) => {
   setStore('today', () => td)
   setStore('total', () => tt)
   setStore('count', () => c)
+  setStore('theme', Math.floor(td / MagicNumber))
 }
 
 const countdown = () => {
