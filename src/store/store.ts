@@ -29,7 +29,7 @@ const countdown = () => {
       setStore('today', (t: number) => t + 1)
       setStore('total', (t: number) => t + 1)
       if (store.today % MagicNumber === 0) {
-        setStore('theme', (t) => (t + 1) % themeNum)
+        changeTheme()
       }
       setStore('workType', () => WorkType.Break)
       setStore('count', () => getIntDefault(Keys.defaultBreakDuration, DefaultBreakDuration))
