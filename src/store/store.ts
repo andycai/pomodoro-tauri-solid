@@ -73,6 +73,18 @@ export const changeTheme = () => {
   setStore('theme', (t) => (t + 1) % themeNum)
 }
 
+export const updateDuration = () => {
+  setStore('count', (c) => {
+    if (store.status == Status.Idle) {
+      if (store.workType == WorkType.Break) {
+        return getIntDefault(Keys.defaultBreakDuration, DefaultBreakDuration)
+      }
+      return getIntDefault(Keys.defaultWorkDuration, DefaultWorkDuration)
+    }
+    return c
+  })
+}
+
 let id: any;
 createEffect(() => {
   clearInterval(id)
